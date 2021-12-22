@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    command: node ace serve --watch
+    volumes: .:/usr/app
+    ports:
+      - 3333:3333
+    networks:
+      - luby-cash-network
+      - bank-system-network
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=docker
+      - MYSQL_DATABASE=bank_system
+    networks:
+      - bank-sytem-network
+    ports:
+      - 3306:3306
+
+networks:
+  luby-cash-network:
+    external: true
+  bank-system-network:
+      driver: bridge
+      external: true
