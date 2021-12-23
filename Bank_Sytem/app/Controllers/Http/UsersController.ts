@@ -48,5 +48,8 @@ export default class UsersController {
     const user = await User.findOrFail(id)
 
     await user.delete()
+    return {succes:{
+      message: 'The user has been deleted'
+    }}
   }
 }
