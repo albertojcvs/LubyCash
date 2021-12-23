@@ -4,7 +4,8 @@ services:
   app:
     build: .
     command: node ace serve --watch
-    volumes: .:/usr/app
+    volumes:
+      - .:/usr/app
     ports:
       - 3333:3333
     networks:
@@ -19,7 +20,7 @@ services:
       - MYSQL_ROOT_PASSWORD=docker
       - MYSQL_DATABASE=bank_system
     networks:
-      - bank-sytem-network
+      - bank-system-network
     ports:
       - 3306:3306
 
@@ -28,4 +29,4 @@ networks:
     external: true
   bank-system-network:
       driver: bridge
-      external: true
+      external: false
