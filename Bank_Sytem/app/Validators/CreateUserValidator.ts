@@ -11,7 +11,7 @@ export default class SaveUserValidator {
       rules.email(),
     ]),
     password: schema.string({ trim: true }, [rules.required(), rules.confirmed()]),
-    usernmae: schema.string({ trim: true }, [rules.required()]),
+    username: schema.string({ trim: true }, [rules.required()]),
   })
 
   public messages = {
