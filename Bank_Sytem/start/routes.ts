@@ -1,22 +1,27 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.post('/users', 'UsersController.store')
+  Route.post('/', 'UsersController.store')
 
   Route.group(() => {
-    Route.get('/users/:id', 'UsersController.show')
-    Route.get('/users', 'UsersController.index')
-    Route.put('/users', 'UsersController.update')
-    Route.delete('/users', 'UsersController.destroy')
+    Route.get('/', 'UsersController.index')
+    Route.get('/:id', 'UsersController.show')
+    Route.put('/:id', 'UsersController.update')
+    Route.delete('/:id', 'UsersController.destroy')
   }).middleware('auth:api')
 }).prefix('/users')
 
 Route.group(() => {
-  Route.get('/permissions/:id', 'PermissionsController.show')
-  Route.get('/permissions', 'PermissionsController.index')
-  Route.post('/permissions', 'PermissionsController.store')
-  Route.delete('/permissions', 'PermissionsController.destroy')
+  Route.get('/', 'PermissionsController.index')
+  Route.get('/:id', 'PermissionsController.show')
+  Route.post('/', 'PermissionsController.store')
+  Route.delete('/:id', 'PermissionsController.destroy')
 })
   .prefix('/permissions')
   .middleware('auth:api')
   .middleware('isAdmin')
+
+Route.group(() => {
+  Route.post('/', 'LoginController.login')
+  Route.delete('/', 'LoginController.logout').middleware('auth:api')
+}).prefix('/login')
