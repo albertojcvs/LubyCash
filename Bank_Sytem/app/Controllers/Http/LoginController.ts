@@ -9,9 +9,8 @@ export default class LoginController {
     const token = await auth.use('api').attempt(email, password)
 
     const user = await User.query()
-      .select('email', 'username')
-      .where('email', email)
-      .preload('permissions')
+      .select('id','email', 'username')
+      .where('email', email).preload('permissions').firstOrFail()
 
     return { token, user }
   }

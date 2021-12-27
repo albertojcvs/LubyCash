@@ -6,13 +6,15 @@ import UpdateUSerValidator from 'App/Validators/UpdateUserValidator'
 
 export default class UsersController {
   public async index({}: HttpContextContract) {
-    return await User.query().select('email', 'username')
+    return await User.query().select('id', 'email', 'username', 'created_at', 'updated_at')
   }
 
   public async show({ params }: HttpContextContract) {
     const { id } = params
 
-    return await User.query().select('email', 'username').where('id', id)
+    return await User.query()
+      .select('id', 'email', 'username', 'created_at', 'updated_at')
+      .where('id', id).firstOrFail()
   }
 
   public async store({ request }: HttpContextContract) {
@@ -24,32 +26,40 @@ export default class UsersController {
 
     await user.related('permissions').attach[userPermission.id]
 
-    return  User.query().select('email', 'username').where('id', user.id)
+    return await User.query()
+      .select('id', 'email', 'username', 'created_at', 'updated_at')
+      .where('id', user.id)
+      .firstOrFail()
   }
 
-  public async update({ params,request }: HttpContextContract) {
-    const data = request.validate(UpdateUSerValidator)
+  public async update({ params, request, bouncer }: HttpContextContract) {
+    const data = await request.validate(UpdateUSerValidator)
 
     const { id } = params
 
     const user = await User.findOrFail(id)
+
 
     Object.assign(user, data)
 
-    await user.save();
+    await user.save()
 
-    return User.query().select('email', 'username').where('id', user.id)
-
+    return await User.query()
+      .select('id', 'email', 'username', 'created_at', 'updated_at')
+      .where('id', user.id)
+      .firstOrFail()
   }
 
-  public async destroy({params}: HttpContextContract) {
-
+  public async destroy({ params, bouncer }: HttpContextContract) {
     const { id } = params
     const user = await User.findOrFail(id)
 
+
     await user.delete()
-    return {succes:{
-      message: 'The user has been deleted'
-    }}
+    return {
+      succes: {
+        message: 'The user has been deleted',
+      },
+    }
   }
 }
