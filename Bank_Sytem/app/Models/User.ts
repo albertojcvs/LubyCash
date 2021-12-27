@@ -13,7 +13,7 @@ export default class User extends BaseModel {
   public password: string
 
   @column()
-  public username:string
+  public username: string
 
   @manyToMany(() => Permission, {
     pivotForeignKey: 'user_id',
@@ -22,6 +22,12 @@ export default class User extends BaseModel {
     pivotTable: 'user_permissions',
   })
   public permissions: ManyToMany<typeof Permission>
+
+  @column()
+  public token: string
+
+  @column.dateTime()
+  public token_created_at: DateTime
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
