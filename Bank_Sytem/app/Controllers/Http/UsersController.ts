@@ -39,6 +39,7 @@ export default class UsersController {
 
     const user = await User.findOrFail(id)
 
+    await bouncer.authorize('updateUser', user)
 
     Object.assign(user, data)
 
@@ -54,6 +55,7 @@ export default class UsersController {
     const { id } = params
     const user = await User.findOrFail(id)
 
+    await bouncer.authorize('deleteUser', user)
 
     await user.delete()
     return {
