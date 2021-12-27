@@ -66,7 +66,7 @@ test.group('Update a user', () => {
     await user_1.delete()
     await user_2.delete()
   })
-  test.only('It should not be able to update a user without a required attributes', async (assert) => {
+  test('It should not be able to update a user without a required attributes', async (assert) => {
     const { user, password } = await createUser()
 
     const token = await login(user.email, password)
