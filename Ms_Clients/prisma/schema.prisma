@@ -16,7 +16,7 @@ model Client {
   email                String        @unique
   cpf                  String        @unique
   phone_number         String        @unique
-  status               String
+  status               ClientStatus
   average_salary       Float
   address               String
   city                 String
@@ -46,4 +46,9 @@ model Transaction {
   to_client_id   Int
   to_client      Client @relation(fields: [to_client_id], references: [id], name: "from_client")
   value          Float
+}
+
+enum ClientStatus{
+  APPROVED
+  REJECTED
 }
