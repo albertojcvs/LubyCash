@@ -2,14 +2,14 @@ import { Client } from "./Client";
 
 export class Account {
   public id!: number;
-  public client!: Client;
-  public accountNumber: number;
+  public clientId!: number;
+  public accountNumber!: number;
   public balance!: number;
 
-  constructor(props: Omit<Account, "accountNumber">) {
+  constructor(props: Omit<Account,'accountNumber'>, accountNumber?:number) {
     Object.assign(this, props);
 
     if (!this.balance) this.balance = 0;
-    this.accountNumber = Date.now();
+    if (!accountNumber) this.accountNumber = Date.now();
   }
 }
