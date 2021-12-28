@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    command: yarn start
+    volumes:
+      - .:/usr/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    networks:
+      - luby-cash-network
+      - ms-clients-network
+
+  db:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=docker
+      - MYSQL_DATABASE=ms_clients
+    networks:
+      - ms-clients-network
+
+networks:
+  luby-cash-network:
+    external: true
+  ms-clients-network:
+    external: false
+    driver: bridge
