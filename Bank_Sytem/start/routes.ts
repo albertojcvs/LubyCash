@@ -25,3 +25,20 @@ Route.group(() => {
   Route.post('/', 'LoginController.login')
   Route.delete('/', 'LoginController.logout').middleware('auth:api')
 }).prefix('/login')
+
+
+Route.group(() => {
+  Route.post('/', 'ResetPasswordController.store' )
+  Route.put('/', 'ResetPasswordController.update' )
+}).prefix('reset_password')
+
+Route.group(() => {
+  Route.get('/', 'AdminsController.index')
+  Route.get('/:id', 'AdminsController.show')
+  Route.post('/', 'AdminsCotroller.store')
+  Route.put('/:id', 'AdminsCotroller.store')
+  Route.delete('/:id', 'AdminsCotroller.store')
+})
+  .prefix('/admin')
+  .middleware('auth:api')
+  .middleware('isAdmin')
