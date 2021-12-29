@@ -5,8 +5,15 @@ import CreateUserValidator from 'App/Validators/CreateUserValidator'
 import UpdateUSerValidator from 'App/Validators/UpdateUserValidator'
 
 export default class UsersController {
-  public async index({}: HttpContextContract) {
-    return await User.query().select('id', 'email', 'username', 'created_at', 'updated_at')
+  public async index() {
+    const userPermission = await Permission.findByOrFail('name', 'user')
+    return await User.query()
+      .select('id', 'email', 'username', 'created_at', 'updated_at')
+      .join('user_permissions', (query) => {
+        query
+          .on('users.id', '=', 'user_permissions.user_id')
+          .andOnVal('user_permission.permission_id', '=', userPermission.id.toString())
+      })
   }
 
   public async show({ params }: HttpContextContract) {
@@ -14,7 +21,8 @@ export default class UsersController {
 
     return await User.query()
       .select('id', 'email', 'username', 'created_at', 'updated_at')
-      .where('id', id).firstOrFail()
+      .where('id', id)
+      .firstOrFail()
   }
 
   public async store({ request }: HttpContextContract) {
