@@ -75,6 +75,13 @@
     fs-extra "^10.0.0"
     media-typer "^1.1.0"
 
+"@adonisjs/bouncer@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@adonisjs/bouncer/-/bouncer-2.2.5.tgz#4b166ad769f5c3868e6aaa284dd623daffc6b8f2"
+  integrity sha512-f060bMQwjJBAQ2pTtUrCbJ3n3/J3nQvzdrpWpWSEzdn8bdZALGh2R1nIhH0cVh8lMQuXzowo9ojxjWGFI0LfmQ==
+  dependencies:
+    "@poppinss/utils" "^3.2.0"
+
 "@adonisjs/config@^3.0.5":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@adonisjs/config/-/config-3.0.5.tgz#00597e949252d09b4d2f9fba3b1321f299833585"
@@ -1052,6 +1059,13 @@ atomic-sleep@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/atomic-sleep/-/atomic-sleep-1.0.0.tgz#eb85b77a601fc932cfe432c5acd364a9e2c9075b"
   integrity sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==
+
+axios@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
+  integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
+  dependencies:
+    follow-redirects "^1.14.4"
 
 babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -2215,6 +2229,11 @@ flattie@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/flattie/-/flattie-1.1.0.tgz#1459504209f2001c478751b4e2fb69d6b1ee3241"
   integrity sha512-xU99gDEnciIwJdGcBmNHnzTJ/w5AT+VFJOu6sTB6WM8diOYNA3Sa+K1DiEBQ7XH4QikQq3iFW1U+jRVcotQnBw==
+
+follow-redirects@^1.14.4:
+  version "1.14.6"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.6.tgz#8cfb281bbc035b3c067d6cd975b0f6ade6e855cd"
+  integrity sha512-fhUl5EwSJbbl8AR+uYL2KQDxLkdSjZGR36xy46AO7cOMTrCMON6Sa28FmAnC2tRTDbd/Uuzz3aJBv7EBN7JH8A==
 
 for-in@^1.0.2:
   version "1.0.2"
