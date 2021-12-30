@@ -18,10 +18,11 @@ export class PrismaClientRepository implements IClientRepository {
     });
   }
 
-  async findAll(): Promise<Client[]> {
-    const clients: Client[] = await (
-      await prisma.client.findMany()
-    ).map((client) => ClientMapper.toModel(client));
+  async findAll() {
+    const clients: Client[] = (await prisma.client.findMany()).map((client) =>
+      ClientMapper.toModel(client)
+    );
+
     return clients;
   }
   async findByEmail(email: string): Promise<Client> {
