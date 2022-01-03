@@ -4,44 +4,44 @@ import { IClientRepository } from "../../repositories/interfaces/IClientReposito
 import { ITransactionRepository } from "../../repositories/interfaces/ITransactionRepository";
 
 export class ClientsController {
-  private clientRepository: IClientRepository;
-  private accountRepository: IAccountRepository;
-  private transactionRepository: ITransactionRepository;
   constructor(
-    clientRepository: IClientRepository,
-    accountRepository: IAccountRepository,
-    transactionRepository: ITransactionRepository
+    private clientRepository: IClientRepository,
+    private transactionRepository: ITransactionRepository
   ) {
     this.clientRepository = clientRepository;
-    this.accountRepository = accountRepository;
     this.transactionRepository = transactionRepository;
   }
 
   public async getAll(request: Request, response: Response) {
     const allClients = await this.clientRepository.findAll();
 
-    const allClientsWithInformation = allClients.map(
-      async ({ address, ...client }) => {
-        const { balance } = await this.accountRepository.findByClientId(
-          client.id
-        );
+    const allClientsWithInformation = await Promise.all(
+      allClients.map(async ({ address, ...client }) => {
+        if (!client.id) return;
+
         const transactionsFromClient =
           await this.transactionRepository.findAllByFromClientId(client.id);
 
         const transactionsToClient =
           await this.transactionRepository.findAllByToClientId(client.id);
 
+        console.log({
+          ...client,
+          ...address,
+          transactionsFromClient,
+          transactionsToClient,
+        });
+
         return {
           ...client,
           ...address,
-          balance,
           transactionsFromClient,
           transactionsToClient,
         };
-      }
+      })
     );
 
-    response.send(allClientsWithInformation);
+    response.json(allClientsWithInformation);
   }
   public async getByEmail(request: Request, response: Response) {
     const { email } = request.params;
