@@ -1,36 +1,36 @@
-import { PrismaClient } from "@prisma/client";
-import { AccountMapper } from "../../../mappers/AccountMapper";
-import { Account } from "../../../models/Account";
-import { IAccountRepository } from "../../interfaces/IAccoutRepository";
+// import { PrismaClient } from "@prisma/client";
+// import { AccountMapper } from "../../../mappers/AccountMapper";
+// import { Account } from "../../../models/Account";
+// import { IAccountRepository } from "../../interfaces/IAccoutRepository";
 
-const prisma = new PrismaClient();
-export class PrismaAccountReposiory implements IAccountRepository {
-  async create(account: Account) {
-    const newAccount = await prisma.account.create({
-      data: AccountMapper.toPersistence(account),
-    });
+// const prisma = new PrismaClient();
+// export class PrismaAccountReposiory implements IAccountRepository {
+//   async create(account: Account) {
+//     const newAccount = await prisma.account.create({
+//       data: AccountMapper.toPersistence(account),
+//     });
 
-    return AccountMapper.toModel(newAccount);
-  }
-  async delete(id: number) {}
+//     return AccountMapper.toModel(newAccount);
+//   }
+//   async delete(id: number) {}
 
-  async findAll() {
-    const accounts = (await prisma.account.findMany()).map((account) =>
-      AccountMapper.toModel(account)
-    );
+//   async findAll() {
+//     const accounts = (await prisma.account.findMany()).map((account) =>
+//       AccountMapper.toModel(account)
+//     );
 
-    return accounts;
-  }
+//     return accounts;
+//   }
 
-  async findByClientId(clientId: number) {
-    const account = AccountMapper.toModel(
-      await prisma.account.findFirst({
-        where: { client_id: clientId },
-        rejectOnNotFound: true,
-      })
-    );
+//   async findByClientId(clientId: number) {
+//     const account = AccountMapper.toModel(
+//       await prisma.account.findFirst({
+//         where: { client_id: clientId },
+//         rejectOnNotFound: true,
+//       })
+//     );
       
-    return account;
+//     return account;
     
-  }
-}
+//   }
+// }

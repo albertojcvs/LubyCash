@@ -8,8 +8,9 @@ const prisma = new PrismaClient();
 export class PrismaClientRepository implements IClientRepository {
   async create(client: Client) {
     const newClient = await prisma.client.create({
-      data: ClientMapper.toPersistence(client),
-    });
+      data: ClientMapper.toPersistence(client), 
+    })
+    
     return new Client(ClientMapper.toModel(newClient));
   }
   async delete(id: number): Promise<void> {
