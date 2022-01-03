@@ -1,12 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import PixValidator from 'App/Validators/PixValidator'
 import axios from 'axios'
+import { Client } from 'comunication/Client'
 import { Producer } from 'kafka/Producer'
-
-type Client = {
-  email: string
-  cpf: string
-}
 
 export default class PixesController {
   public async store({ request, auth }: HttpContextContract) {
@@ -16,7 +12,7 @@ export default class PixesController {
     if (user) {
       const producer = new Producer()
 
-      const response = await axios.get(`http://ms_clients_app_1:3000/clients}`)
+      const response = await axios.get(`http://ms_clients_app_1:3000/clients`)
       const clients = response.data
 
       const loggedUser = clients.filter((client: Client) => user.email == client.email)
