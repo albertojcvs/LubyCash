@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Client } from 'comunication/Client'
 import { Producer } from 'kafka/Producer'
 
-export default class PixesController {
+export default class PixController {
   public async store({ request, auth }: HttpContextContract) {
     const { toUserCpf, value } = await request.validate(PixValidator)
     const user = auth.user
