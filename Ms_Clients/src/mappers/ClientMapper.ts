@@ -15,7 +15,10 @@ export class ClientMapper {
     phone_number,
     state,
     status,
-    zipcode,
+    zipcode, 
+    balance,
+    created_at,
+    updated_at
   }: ClientPersistence): Client {
     return new Client({
       id,
@@ -25,6 +28,9 @@ export class ClientMapper {
       phoneNumber: phone_number,
       email: email,
       status: ClientStatusMapper.toModel(status),
+      balance,
+      createdAt:created_at,
+      updatedAt:updated_at,
       address: {
         address,
         city,
@@ -43,6 +49,7 @@ export class ClientMapper {
     fullname,
     phoneNumber,
     status,
+    balance
   }: Client) {
     return {
       id,
@@ -53,6 +60,7 @@ export class ClientMapper {
       phone_number: phoneNumber,
       status: ClientStatusMapper.toPersistence(status),
       ...address,
+      balance
     };
   }
 }
