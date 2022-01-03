@@ -1,4 +1,4 @@
 export enum ClientStatus{
-    APPROVED,
-    REJECTED
+    APPROVED="APPROVED",
+    REJECTED="REJECTED"
 }
