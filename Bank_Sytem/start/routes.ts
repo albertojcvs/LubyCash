@@ -43,14 +43,19 @@ Route.group(() => {
   .middleware('isAdmin')
 
 Route.group(() => {
-  Route.get('/', 'ClientsController.index')
+  Route.post('/', 'ClientsController.store')
 
-})
-  .prefix('/clients')
-  .middleware('isAdmin')
+  Route.group(() => {
+    Route.get('/', 'ClientsController.index')
+
+    Route.group(() => {
+      Route.get('/:id', '')
+    }).prefix('/statements')
+  }).middleware('isAdmin')
+}).prefix('/clients')
 
 Route.group(() => {
   Route.post('/', 'PixController.store')
 })
   .prefix('/pix')
-  .middleware('auth:apiI')
+  .middleware('auth:api')
