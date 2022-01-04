@@ -8,9 +8,9 @@ const prisma = new PrismaClient();
 export class PrismaClientRepository implements IClientRepository {
   async create(client: Client) {
     const newClient = await prisma.client.create({
-      data: ClientMapper.toPersistence(client), 
-    })
-    
+      data: ClientMapper.toPersistence(client),
+    });
+
     return new Client(ClientMapper.toModel(newClient));
   }
   async delete(id: number): Promise<void> {
@@ -35,5 +35,22 @@ export class PrismaClientRepository implements IClientRepository {
     );
 
     return client;
+  }
+
+  async update(client: Client) {
+    const clientUpdated = await prisma.client.update({
+      data: ClientMapper.toPersistence(client),
+      where: { id: client.id },
+    });
+    return ClientMapper.toModel(clientUpdated);
+  }
+
+  async findById(id: number) {
+    const client = await prisma.client.findFirst({
+      where: { id },
+      rejectOnNotFound: true,
+    });
+
+    return ClientMapper.toModel(client);
   }
 }
