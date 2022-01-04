@@ -4,6 +4,7 @@ import LoginValidator from 'App/Validators/LoginValidator'
 
 export default class LoginController {
   public async login({ request, auth }: HttpContextContract) {
+
     const { email, password } = await request.validate(LoginValidator)
 
     const token = await auth.use('api').attempt(email, password)
