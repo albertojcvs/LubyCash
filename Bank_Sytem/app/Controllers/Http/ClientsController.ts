@@ -1,8 +1,30 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import CreateClientValidator from 'App/Validators/CreateClientValidator'
 import axios from 'axios'
 import { Client } from 'comunication/Client'
+import { Producer } from '../../kafka/Producer'
 
 export default class ClientsController {
+  public async store({ request, response }: HttpContextContract) {
+    const data = await request.validate(CreateClientValidator)
+
+    const clientResponse = await axios.get('http://ms_clients_app_1:3000/clients')
+
+    const clients: Client[] = clientResponse.data
+
+    const clientAlreadyExists = clients.filter((client) => data.email == client.email)[0]
+    if (clientAlreadyExists)
+      return response.status(409).send({
+        error: {
+          message: `The client already exists\n Client status: ${clientAlreadyExists.status}`,
+        },
+      })
+    const producer = new Producer()
+
+    await producer.produce({ topic: 'create-client', messages: [{ value: JSON.stringify(data) }] })
+    return { succes: 'The client is being analyzed' }
+  }
+
   public async index({ request }: HttpContextContract) {
     const { status, date_start, date_end } = request.qs()
 
@@ -11,7 +33,6 @@ export default class ClientsController {
 
     if (status || date_start || date_end) {
       let filteredClients: Client[] = clients
-      console.log(date_end);
 
       if (status) {
         filteredClients = clients.filter(
@@ -21,28 +42,22 @@ export default class ClientsController {
 
       if (date_start) {
         filteredClients = filteredClients.filter((client) => {
-          client.createdAt = new Date(client.createdAt  )
-          console.log(client.createdAt.toString());
+          client.createdAt = new Date(client.createdAt)
 
           const clientCreatedAtStartOfDay = new Date(
             client.createdAt.getFullYear(),
             client.createdAt.getMonth(),
             client.createdAt.getDate()
-            ).getTime()
+          ).getTime()
 
-            const dateStartFilter = new Date(date_start).getTime()
+          const dateStartFilter = new Date(date_start).getTime()
 
-            return clientCreatedAtStartOfDay >= dateStartFilter
+          return clientCreatedAtStartOfDay >= dateStartFilter
         })
       }
 
-
-
       if (date_end) {
-        console.log('bbbbbbbbbbbbbbb');
-
         filteredClients = filteredClients.filter((client) => {
-          console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa', client.createdAt);
           client.createdAt = new Date(client.createdAt)
           const clientCreatedAtStartOfDay = new Date(
             client.createdAt.getFullYear(),
