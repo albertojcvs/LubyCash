@@ -13,7 +13,7 @@ export interface Client {
   transactionsFromClient: Transaction[]
 }
 
-enum ClientStatus {
+export enum ClientStatus {
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
 }
