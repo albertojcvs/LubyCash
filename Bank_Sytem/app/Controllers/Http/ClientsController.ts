@@ -12,13 +12,30 @@ export default class ClientsController {
 
     const clients: Client[] = clientResponse.data
 
-    const clientAlreadyExists = clients.filter((client) => data.email == client.email)[0]
-    if (clientAlreadyExists)
+    const emailAlreadyExists = clients.some((client) => data.email == client.email)
+    if (emailAlreadyExists)
       return response.status(409).send({
         error: {
-          message: `The client already exists\n Client status: ${clientAlreadyExists.status}`,
+          message: `The email already exists\n`,
         },
       })
+
+      const phoneAlreadyExists = clients.some((client) => data.phoneNumber == client.phoneNumber)
+      if (phoneAlreadyExists)
+        return response.status(409).send({
+          error: {
+            message: `The phone number already exists\n`,
+          },
+        })
+
+        const cpfAlreadyExists = clients.some((client) => data.phoneNumber == client.phoneNumber)
+        if (cpfAlreadyExists)
+          return response.status(409).send({
+            error: {
+              message: `The cpf already exists\n`,
+            },
+          })
+
     const producer = new Producer()
 
     await producer.produce({ topic: 'create-client', messages: [{ value: JSON.stringify(data) }] })
@@ -71,6 +88,7 @@ export default class ClientsController {
         })
       }
 
+      console.log(filteredClients)
       return filteredClients
     }
 
