@@ -7,6 +7,7 @@ export default class IsAdmin {
 
     if (id) {
       const user = await User.findOrFail(id)
+      console.log(auth.user);
 
       await user.load('permissions')
       const hasAdminPermission = user.permissions.some((permission) => permission.name === 'admin')
@@ -16,6 +17,9 @@ export default class IsAdmin {
         return response
           .status(403)
           .send({ error: { message: 'Only authenticated admins can use this route' } })
-    }
+    } else
+      return response
+        .status(403)
+        .send({ error: { message: 'Only authenticated admins can use this route' } })
   }
 }
