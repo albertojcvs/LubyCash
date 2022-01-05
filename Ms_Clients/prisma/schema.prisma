@@ -18,27 +18,32 @@ model Client {
   phone_number         String        @unique
   status               ClientStatus
   average_salary       Float
-  address               String
+  address              String
   city                 String
   state                String
   zipcode              String
   created_at           DateTime      @default(now())
   updated_at           DateTime      @default(now())
-  balance              Float @default(0)
+  balance              Float         @default(0)
   transactions_from_me Transaction[] @relation("to_client")
   transactions_to_me   Transaction[] @relation("from_client")
+
+  @@map("clients")
 }
 
 model Transaction {
-  id             Int    @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   from_client_id Int
-  from_client    Client @relation(fields: [from_client_id], references: [id], name: "to_client")
+  from_client    Client   @relation(fields: [from_client_id], references: [id], name: "to_client", onDelete: Cascade)
   to_client_id   Int
-  to_client      Client @relation(fields: [to_client_id], references: [id], name: "from_client")
+  to_client      Client   @relation(fields: [to_client_id], references: [id], name: "from_client", onDelete: Cascade)
   value          Float
+  created_at     DateTime @default(now())
+
+  @@map("transactions")
 }
 
-enum ClientStatus{
+enum ClientStatus {
   APPROVED
   REJECTED
 }
