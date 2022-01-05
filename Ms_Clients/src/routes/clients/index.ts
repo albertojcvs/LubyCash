@@ -14,8 +14,8 @@ const clientsController = new ClientsController(
 );
 const clientsRoutes = Router();
 
-clientsRoutes.get("/clients", (request, response) =>
-  clientsController.getAll(request, response)
+clientsRoutes.get("/clients", async (request, response) =>
+  await clientsController.getAll(request, response)
 );
 
 export default clientsRoutes;
