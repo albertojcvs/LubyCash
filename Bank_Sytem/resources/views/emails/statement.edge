@@ -1,0 +1,21 @@
+<h1>Hey, {{adminUsername}}</h1>
+
+<p>This is the bank statement of {{clientFullname}}</p>
+
+<p>Money sent: R${{ moneySent}}</p>
+<ul>
+  @each(transaction in transactionsFromClient)
+  <li> R${{transaction.value}} to {{transaction.toClient}} at {{transaction.date}}</li>
+  @endeach
+</ul>
+
+<p>Money recived: R${{ moneyRecived}}</p>
+
+<ul>
+  @each(transaction in transactionsToClient)
+  <li> R${{transaction.value}} from {{transaction.fromClient}} at {{transaction.date}}</li>
+  @endeach
+</ul>
+
+
+<p>Balance: R${{ balance }}</p>

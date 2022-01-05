@@ -49,10 +49,12 @@ Route.group(() => {
     Route.get('/', 'ClientsController.index')
 
     Route.group(() => {
-      Route.get('/:id', '')
-    }).prefix('/statements')
+      Route.get('/', 'StatementsController.show')
+    }).prefix('/:cpf/statements')
   }).middleware('isAdmin')
-}).prefix('/clients')
+})
+  .prefix('/clients')
+  .middleware('auth:api')
 
 Route.group(() => {
   Route.post('/', 'PixController.store')
