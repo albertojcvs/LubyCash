@@ -7,15 +7,19 @@ const prisma = new PrismaClient();
 
 export class PrismaClientRepository implements IClientRepository {
   async create(client: Client) {
-    const newClient = await prisma.client.create({
-      data: ClientMapper.toPersistence(client),
-    });
-
-    return new Client(ClientMapper.toModel(newClient));
+    try {
+      const newClient = await prisma.client.create({
+        data: ClientMapper.toPersistence(client),
+      });
+      return new Client(ClientMapper.toModel(newClient));
+    } catch (error:any) {
+      console.log(error);
+      return error
+    }
   }
   async delete(id: number): Promise<void> {
     await prisma.client.delete({
-      where: { id },
+      where: { id }
     });
   }
 
