@@ -2,6 +2,8 @@
 
 <p>This is the bank statement of {{clientFullname}}</p>
 
+<p>From {{dateStart}} to {{dateEnd}}</p>
+
 <p>Money sent: R${{ moneySent}}</p>
 <ul>
   @each(transaction in transactionsFromClient)
