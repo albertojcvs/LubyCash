@@ -3,7 +3,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import axios from 'axios'
 import { Client } from 'comunication/Client'
 import { Transaction } from 'comunication/Transaction'
-/// aaaaa
+
 interface ITransactionEmail {
   date: string
   value: string
@@ -18,19 +18,25 @@ export default class StatementsController {
     const clientsResponse = await axios.get('http://ms_clients_app_1:3000/clients')
     const allClients: Client[] = clientsResponse.data
 
-
     const client = allClients.filter((client: Client) => client.cpf == cpf)[0]
 
-    const client = allClients.filter((client: Client) => client.id == id)[0]
+    const period = {
+      dateStart: new Date(client.createdAt).toLocaleDateString(),
+      dateEnd: new Date().toLocaleDateString(),
+    }
 
     if (!client)
       return response.status(404).send({ error: { message: 'The client was not found!' } })
 
     let statement = `This is the statment of the ${client.fullname}\n`
+
     let transactionsFromClient: Transaction[] = client.transactionsFromClient
     let transactionsToClient: Transaction[] = client.transactionsToClient
 
-    if (date_start) {
+    const dateRegex = /\d\d\/\d\d\/\d\d\d\d/g
+
+    if (date_start && dateRegex.test(date_start)) {
+      period.dateStart = new Date(date_start).toLocaleDateString()
       const dateStartFilter = new Date(date_start).getTime()
 
       transactionsFromClient = transactionsFromClient.filter((transaction) => {
@@ -55,7 +61,8 @@ export default class StatementsController {
         return transactionCreatedAtStartOfDay >= dateStartFilter
       })
     }
-    if (date_end) {
+    if (date_end && dateRegex.test(date_end)) {
+      period.dateEnd = new Date(date_end).toLocaleDateString()
       const dateEndFilter = new Date(date_end).getTime()
 
       transactionsFromClient = transactionsFromClient.filter((transaction) => {
@@ -150,6 +157,7 @@ export default class StatementsController {
           moneyRecived,
           moneySent,
           clientFullname: client.fullname,
+          ...period,
         })
     })
 
@@ -160,6 +168,7 @@ export default class StatementsController {
       balance,
       moneyRecived,
       moneySent,
+      ...period,
     }
   }
 }
