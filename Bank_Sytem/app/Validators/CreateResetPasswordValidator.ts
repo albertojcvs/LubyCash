@@ -13,7 +13,7 @@ export default class CreateResetPasswordValidator {
         column: 'email',
       }),
     ]),
-    link: schema.string({ trim: true }, [rules.url]),
+    link: schema.string.optional({ trim: true}, [rules.url()])
   })
 
   public messages = {
