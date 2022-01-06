@@ -8,12 +8,8 @@ export default class UsersController {
   public async index() {
     const userPermission = await Permission.findByOrFail('name', 'user')
     return await User.query()
-      .select('id', 'email', 'username', 'created_at', 'updated_at')
-      .join('user_permissions', (query) => {
-        query
-          .on('users.id', '=', 'user_permissions.user_id')
-          .andOnVal('user_permission.permission_id', '=', userPermission.id.toString())
-      })
+      .select('users.id', 'email', 'username', 'users.created_at', 'users.updated_at')
+      .preload('permissions')
   }
 
   public async show({ params }: HttpContextContract) {
@@ -22,6 +18,7 @@ export default class UsersController {
     return await User.query()
       .select('id', 'email', 'username', 'created_at', 'updated_at')
       .where('id', id)
+      .preload('permissions')
       .firstOrFail()
   }
 
@@ -32,7 +29,7 @@ export default class UsersController {
 
     const userPermission = await Permission.findByOrFail('name', 'user')
 
-    await user.related('permissions').attach[userPermission.id]
+    await user.related('permissions').attach([userPermission.id])
 
     return await User.query()
       .select('id', 'email', 'username', 'created_at', 'updated_at')
