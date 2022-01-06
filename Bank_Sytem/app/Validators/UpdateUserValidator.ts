@@ -13,17 +13,6 @@ export default class UpdateUSerValidator {
     username: schema.string({ trim: true }, [rules.required()]),
   })
 
-  /**
-   * Custom messages for validation failures. You can make use of dot notation `(.)`
-   * for targeting nested fields and array expressions `(*)` for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
   public messages = {
     'required': "The {{ field }} is required to update the user's data",
     'unique': ' The {{ field }} alrady exists',
