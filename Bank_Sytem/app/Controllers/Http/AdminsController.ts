@@ -8,11 +8,11 @@ export default class AdminsController {
   public async index() {
     const adminPermission = await Permission.findByOrFail('name', 'admin')
     return await User.query()
-      .select('id', 'username', 'email', 'created_at', 'updated_at')
+      .select('users.id', 'username', 'email', 'users.created_at', 'users.updated_at')
       .join('user_permissions', (query) => {
         query
           .on('users.id', '=', 'user_permissions.user_id')
-          .andOnVal('user_permission.permission_id', '=', adminPermission.id.toString())
+          .andOnVal('user_permissions.permission_id', '=', adminPermission.id.toString())
       })
   }
 
@@ -29,11 +29,12 @@ export default class AdminsController {
   public async store({ request }: HttpContextContract) {
     const data = await request.validate(CreateUserValidator)
 
+    const userPermission = await Permission.findByOrFail('name', 'user')
     const adminPermission = await Permission.findByOrFail('name', 'admin')
 
     const admin = await User.create(data)
 
-    await admin.related('permissions').attach([adminPermission.id])
+    await admin.related('permissions').attach([userPermission.id, adminPermission.id])
 
     return await User.query()
       .select('id', 'username', 'email', 'created_at', 'updated_at')
