@@ -34,11 +34,10 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/', 'AdminsController.index')
   Route.get('/:id', 'AdminsController.show')
-  Route.post('/', 'AdminsCotroller.store')
-  Route.put('/:id', 'AdminsCotroller.store')
-  Route.delete('/:id', 'AdminsCotroller.store')
+  Route.post('/', 'AdminsController.store')
+  Route.delete('/:id', 'AdminsController.destroy')
 })
-  .prefix('/admin')
+  .prefix('/admins')
   .middleware('auth:api')
   .middleware('isAdmin')
 
@@ -61,3 +60,11 @@ Route.group(() => {
 })
   .prefix('/pix')
   .middleware('auth:api')
+
+Route.group(() => {
+  Route.post('/', 'PromoteUsersController.promoteUser')
+  Route.delete('/','PromoteUsersController.removePromotion')
+})
+  .prefix('promote_user')
+  .middleware('auth:api')
+  .middleware('isAdmin')
