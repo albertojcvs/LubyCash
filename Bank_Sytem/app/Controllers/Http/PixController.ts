@@ -17,7 +17,7 @@ export default class PixController {
 
       const loggedClient = clients.filter((client: Client) => user.email == client.email)[0]
 
-      if (!loggedClient) {
+      if (!loggedClient || loggedClient.status == ClientStatus.REJECTED ) {
         return response
           .status(400)
           .send({ error: { message: 'The authenticaded user is not a client!' } })
