@@ -24,7 +24,7 @@ export default class ResetPasswordsController {
         .htmlView('emails/reset_password', {
           username: user.username,
           token: user.token,
-          link,
+          link: link ? link + user.token : null,
         })
     })
 
@@ -43,10 +43,11 @@ export default class ResetPasswordsController {
     await user.save()
 
     await Mail.sendLater((message) => {
-      message.to(user.email)
-      .from('lubycash@lubycash.com')
-      .subject('Your password was reseted!')
-      .htmlView('emails/password_reseted', {username:user.username})
+      message
+        .to(user.email)
+        .from('lubycash@lubycash.com')
+        .subject('Your password was reseted!')
+        .htmlView('emails/password_reseted', { username: user.username })
     })
 
     return { succes: { message: 'The password was reseted!' } }

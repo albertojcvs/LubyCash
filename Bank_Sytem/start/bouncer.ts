@@ -7,12 +7,13 @@ import User from 'App/Models/User'
 |****************************************************************
 */
 export const { actions } = Bouncer
-.define('deleteUser', (userAuthenticaded:User, user:User ) => {
-  return userAuthenticaded.id == user.id
+.define('deleteUser', (authenticadedUser:User, user:User ) => {
+  return authenticadedUser.id == user.id
 })
-.define('updateUser', (userAuthenticaded:User, user:User) =>{
-  return userAuthenticaded.id == user.id
+.define('updateUser', (authenticadedUser:User, user:User) =>{
+  return authenticadedUser.id == user.id
 })
+
 /*
 |--------------------------------------------------------------------------
 | Bouncer Policies

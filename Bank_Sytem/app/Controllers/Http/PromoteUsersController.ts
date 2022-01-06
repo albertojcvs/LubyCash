@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Permission from 'App/Models/Permission'
 import User from 'App/Models/User'
 import ChangePromoteUser from 'App/Validators/ChangeUserPermissionValidator'
 
@@ -7,7 +8,7 @@ export default class PromoteUsersController {
     const { user_id, permission_name } = await request.validate(ChangePromoteUser)
 
     const user = await User.findOrFail(user_id)
-    const permission = await User.findByOrFail('name', permission_name)
+    const permission = await Permission.findByOrFail('name', permission_name)
 
     await user.related('permissions').attach([permission.id])
 
@@ -22,9 +23,9 @@ export default class PromoteUsersController {
     const { user_id, permission_name } = await request.validate(ChangePromoteUser)
 
     const user = await User.findOrFail(user_id)
-    const permission = await User.findByOrFail('name', permission_name)
+    const permission = await Permission.findByOrFail('name', permission_name)
 
-    await user.related('permissions').attach([permission.id])
+    await user.related('permissions').detach([permission.id])
 
     return {
       succes: {
