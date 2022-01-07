@@ -28,7 +28,7 @@ export default class ClientsController {
           },
         })
 
-        const cpfAlreadyExists = clients.some((client) => data.phoneNumber == client.phoneNumber)
+        const cpfAlreadyExists = clients.some((client) => data.cpf == client.cpf)
         if (cpfAlreadyExists)
           return response.status(409).send({
             error: {
@@ -88,7 +88,6 @@ export default class ClientsController {
         })
       }
 
-      console.log(filteredClients)
       return filteredClients
     }
 
