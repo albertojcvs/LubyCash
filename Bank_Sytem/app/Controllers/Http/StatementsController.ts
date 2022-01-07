@@ -21,8 +21,16 @@ export default class StatementsController {
     const client = allClients.filter((client: Client) => client.cpf == cpf)[0]
 
     const period = {
-      dateStart: new Date(client.createdAt).toLocaleDateString(),
-      dateEnd: new Date().toLocaleDateString(),
+      dateStart: new Date(client.createdAt).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }),
+      dateEnd: new Date().toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }),
     }
 
     if (!client)
@@ -36,7 +44,11 @@ export default class StatementsController {
     const dateRegex = /\d\d\/\d\d\/\d\d\d\d/g
 
     if (date_start && dateRegex.test(date_start)) {
-      period.dateStart = new Date(date_start).toLocaleDateString()
+      period.dateStart = new Date(date_start).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
       const dateStartFilter = new Date(date_start).getTime()
 
       transactionsFromClient = transactionsFromClient.filter((transaction) => {
@@ -62,7 +74,11 @@ export default class StatementsController {
       })
     }
     if (date_end && dateRegex.test(date_end)) {
-      period.dateEnd = new Date(date_end).toLocaleDateString()
+      period.dateEnd = new Date(date_end).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
       const dateEndFilter = new Date(date_end).getTime()
 
       transactionsFromClient = transactionsFromClient.filter((transaction) => {
@@ -122,7 +138,11 @@ export default class StatementsController {
         transaction.createdAt = new Date(transaction.createdAt)
         return {
           value: transaction.value.toPrecision(2),
-          date: transaction.createdAt.toLocaleString(),
+          date: transaction.createdAt.toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }),
           fromClient: fromClient.fullname,
           toClient: toClient.fullname,
         }
@@ -137,7 +157,11 @@ export default class StatementsController {
         transaction.createdAt = new Date(transaction.createdAt)
         return {
           value: transaction.value.toPrecision(),
-          date: transaction.createdAt.toLocaleString(),
+          date: transaction.createdAt.toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }),
           fromClient: fromClient.fullname,
           toClient: toClient.fullname,
         }
