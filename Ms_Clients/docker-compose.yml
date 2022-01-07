@@ -21,7 +21,8 @@ services:
       - MYSQL_DATABASE=ms_clients
     networks:
       - ms-clients-network
-
+    ports:
+      - 3307:3306
 networks:
   luby-cash-network:
     external: true
