@@ -4,8 +4,10 @@ Route.group(() => {
   Route.post('/', 'UsersController.store')
 
   Route.group(() => {
-    Route.get('/', 'UsersController.index')
-    Route.get('/:id', 'UsersController.show')
+    Route.group(() => {
+      Route.get('/', 'UsersController.index')
+      Route.get('/:id', 'UsersController.show')
+    }).middleware('isAdmin')
     Route.put('/:id', 'UsersController.update')
     Route.delete('/:id', 'UsersController.destroy')
   }).middleware('auth:api')
